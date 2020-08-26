@@ -7,8 +7,8 @@ services:
       - POSTGRES_DB=dejavu
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=password
-    networks:
-      - db_network
+    ports:
+      - 5432:5432
   python:
     build:
       context: ./docker/python
@@ -16,7 +16,3 @@ services:
       - .:/code
     depends_on:
       - db
-    networks:
-      - db_network
-networks:
-  db_network:

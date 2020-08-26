@@ -1,3 +1,4 @@
+import logging
 import numpy as np
 import pyaudio
 
@@ -23,7 +24,7 @@ class MicrophoneRecognizer(BaseRecognizer):
     def start_recording(self, channels=default_channels,
                         samplerate=default_samplerate,
                         chunksize=default_chunksize):
-        print("* start recording")
+        logging.debug("* start recording")
         self.chunksize = chunksize
         self.channels = channels
         self.recorded = False
@@ -44,7 +45,7 @@ class MicrophoneRecognizer(BaseRecognizer):
         self.data = [[] for i in range(channels)]
 
     def process_recording(self):
-        print("* recording")
+        logging.debug("* recording")
         data = self.stream.read(self.chunksize)
         nums = np.fromstring(data, np.int16)
         # print(nums)
@@ -52,7 +53,7 @@ class MicrophoneRecognizer(BaseRecognizer):
             self.data[c].extend(nums[c::self.channels])
 
     def stop_recording(self):
-        print("* done recording")
+        logging.debug("* done recording")
         self.stream.stop_stream()
         self.stream.close()
         self.stream = None
